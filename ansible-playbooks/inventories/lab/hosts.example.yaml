@@ -1,0 +1,7 @@
+# hosts.example.yaml
+all:
+  hosts:
+    k3s-master-01:
+      ansible_host: 192.168.56.101
+      ansible_user: ubuntu
+      # add other vars as needed
