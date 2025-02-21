@@ -1,7 +1,16 @@
 # hosts.example.yaml
 all:
-  hosts:
-    k3s-master-01:
-      ansible_host: 192.168.56.101
-      ansible_user: ubuntu
-      # add other vars as needed
+  children:
+    master_nodes:
+      hosts:
+        k3s-master-01:
+          ansible_host: 192.168.1.11
+          ansible_user: ubuntu
+        k3s-master-02:
+          ansible_host: 192.168.1.12
+          ansible_user: ubuntu
+    worker_nodes:
+      hosts:
+        k3s-worker-01:
+          ansible_host: 192.168.1.21
+          ansible_user: ubuntu

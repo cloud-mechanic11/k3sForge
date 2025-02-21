@@ -1,0 +1,46 @@
+---
+- name: Install HAProxy on Debian/Ubuntu
+  apt:
+    name: haproxy
+    update_cache: yes
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install HAProxy on Red Hat/CentOS
+  yum:
+    name: haproxy
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Ensure HAProxy service is started and enabled
+  service:
+    name: haproxy
+    state: started
+    enabled: yes
+
+- name: Deploy HAProxy config
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload HAProxy
+
+# Optional tasks for logging or logrotate, remove or modify as needed
+- name: Create HAProxy log directory (optional)
+  file:
+    path: /var/log/haproxy
+    state: directory
+    owner: syslog
+    group: adm
+    mode: "0755"
+
+- name: Deploy HAProxy logrotate config (optional)
+  template:
+    src: haproxy.logrotate.j2
+    dest: /etc/logrotate.d/haproxy
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload logrotate

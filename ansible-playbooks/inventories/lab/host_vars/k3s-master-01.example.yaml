@@ -1,0 +1,4 @@
+# host_vars/k3s-master-01.example.yaml
+ansible_host: 192.168.1.11
+ansible_user: ubuntu
+

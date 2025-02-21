@@ -1,0 +1,4 @@
+# group_vars/all.example.yaml
+k3s_version: "v1.24.0"
+default_user: "ubuntu"
+my_custom_setting: "some_value"

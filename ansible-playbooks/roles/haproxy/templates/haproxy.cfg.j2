@@ -1,0 +1,26 @@
+global
+  log /dev/log local0
+  log /dev/log local1 notice
+  chroot /var/lib/haproxy
+  stats socket /run/haproxy/admin.sock mode 660 level admin
+  stats timeout 30s
+  user haproxy
+  group haproxy
+  daemon
+
+defaults
+  log global
+  mode tcp
+  option dontlognull
+  timeout connect 5s
+  timeout client  30s
+  timeout server  30s
+
+# Example listener for k3s API traffic
+listen k3s_api
+  bind *:6443
+  mode tcp
+  balance roundrobin
+  {% for node in haproxy_backend_nodes %}
+  server {{ node.name }} {{ node.ip }}:{{ node.port }} check
+  {% endfor %}

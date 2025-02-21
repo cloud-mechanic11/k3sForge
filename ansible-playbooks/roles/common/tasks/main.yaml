@@ -1,0 +1,13 @@
+# k3sForge/ansible-playbooks/roles/common/tasks/main.yaml
+---
+- name: Update apt cache (Ubuntu/Debian)
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Upgrade system packages
+  apt:
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes
+  register: upgrade_result
